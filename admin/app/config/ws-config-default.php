@@ -26,19 +26,9 @@
 ####################################################################################
 # DEFINIMOS O PATH DE INSTALAÇÃO DO WEBSITE
 ####################################################################################
-	if(!defined("ROOT_WEBSHEEP"))	{
-		$path = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'admin'));
-		$path = implode(array_filter(explode('/',$path)),"/");
-		define('ROOT_WEBSHEEP',(($path=="") ? "/" : '/'.$path.'/'));
-	}
-
-	if(!defined("INCLUDE_PATH")){
-		define("INCLUDE_PATH",str_replace("\\","/",substr(realpath(__DIR__),0,strrpos(realpath(__DIR__),'admin'))));
-	}
-
 	class wsconfig{
-		const includePath 	=INCLUDE_PATH;
-		const rootPath 		=ROOT_WEBSHEEP;
+		const includePath 	='{{INCLUDE_PATH}}';
+		const rootPath 		='{{ROOT_WEBSHEEP}}';
 		const domain 		="{{domain}}";
 	}
 
@@ -95,7 +85,7 @@ if(!defined("NONCE_SALT"))			define('NONCE_SALT',		'{NONCE_SALT}');
 #	VERSÃO DO PHP REQUERIDO
 ############################################
 if(!defined("php_version")) 	{
-	define('php_version',file_get_contents(INCLUDE_PATH.'admin/app/templates/txt/ws-php-version.txt'));
+	define('php_version',file_get_contents(wsconfig::includePath.'admin/app/templates/txt/ws-php-version.txt'));
 }
 
 ############################################
@@ -103,11 +93,11 @@ if(!defined("php_version")) 	{
 ############################################
 // TRADUÇÃO ANTIGA
 if( !defined( '__LANG__' ) ){
-	define( '__LANG__', str_replace(array(PHP_EOL,"\n","\r"),"",file_get_contents(INCLUDE_PATH.'admin/app/templates/json/ws-lang.json')));
+	define( '__LANG__', str_replace(array(PHP_EOL,"\n","\r"),"",file_get_contents(wsconfig::includePath.'admin/app/templates/json/ws-lang.json')));
 }
 
 // TRADUÇÃO NOVA (em desenvolvimento ainda)
-if( !defined( 'wslang' ) )	define( 'wslang', str_replace(array(PHP_EOL,"\n","\r"),"",file_get_contents(INCLUDE_PATH.'admin/app/config/lang/'.LANG.'.json')) );
+if( !defined( 'wslang' ) )	define( 'wslang', str_replace(array(PHP_EOL,"\n","\r"),"",file_get_contents(wsconfig::includePath.'admin/app/config/lang/'.LANG.'.json')) );
 
 
 

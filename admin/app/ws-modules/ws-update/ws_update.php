@@ -4,12 +4,12 @@ error_reporting( E_ALL );
 # DEFINIMOS O ROOT DO SISTEMA
 ############################################################################################################################################
 	if(!defined("ROOT_WEBSHEEP"))	{
-	$path = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'admin'));
-	$path = implode(array_filter(explode('/',$path)),"/");
-	define('ROOT_WEBSHEEP',(($path=="") ? "/" : '/'.$path.'/'));
-}
+		$path = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'admin'));
+		$path = implode(array_filter(explode('/',$path)),"/");
+		define('ROOT_WEBSHEEP',(($path=="") ? "/" : '/'.$path.'/'));
+	}
 
-if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(realpath(__DIR__),0,strrpos(realpath(__DIR__),'admin'))));}
+	if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(realpath(__DIR__),0,strrpos(realpath(__DIR__),'admin'))));}
 
 ############################################################################################################################################
 	include_once(INCLUDE_PATH.'admin/app/lib/class-ws-v1.php');	
@@ -209,19 +209,17 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	add_if_not_exist('ws_ferramentas'		,'max_item',			'int(11) 				NOT NULL DEFAULT FALSE');
 	add_if_not_exist('ws_ferramentas'		,'ws_author',			'int(11) 				NOT NULL DEFAULT FALSE');
 	add_if_not_exist('ws_ferramentas'		,'clone_tool',			'int(11) 				NOT NULL default FALSE');
+	add_if_not_exist('ws_ferramentas'		,'App_Type', 			'int(11) 				NOT NULL default FALSE');
 	add_if_not_exist('ws_ferramentas'		,'_prefix_', 			'varchar(200) 				NULL default ""');
-	add_if_not_exist('ws_ferramentas'		,'_exec_js_', 			'varchar(100) 			NOT NULL default "nada"');
-	add_if_not_exist('ws_ferramentas'		,'_js_', 				'LONGTEXT 				NULL default NULL');
-
+	add_if_not_exist('ws_ferramentas'		,'_exec_js_', 			'varchar(100) 				NOT NULL default "nada"');
+	add_if_not_exist('ws_ferramentas'		,'_js_', 				'LONGTEXT 					NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_item', 				'LONGTEXT 				NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_cat', 				'LONGTEXT 				NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_img', 				'LONGTEXT 				NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_gal', 				'LONGTEXT 				NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_img_gal', 			'LONGTEXT 				NULL default NULL');
 	add_if_not_exist('ws_ferramentas'		,'html_file', 				'LONGTEXT 				NULL default NULL');
-
 	add_if_not_exist('ws_ferramentas'		,'slug', 				'varchar(100) 				NULL default ""');
-	add_if_not_exist('ws_ferramentas'		,'App_Type', 			'int(11) 				NOT NULL default FALSE');
 	add_if_not_exist('ws_ferramentas'		,'item_type', 			'varchar(50) 				NULL default ""');
 	add_if_not_exist('ws_ferramentas'		,'_tit_menu_', 			'varchar(255) 				NULL default ""');
 	add_if_not_exist('ws_ferramentas'		,'_desc_', 				'varchar(255) 				NULL default ""');
@@ -264,6 +262,7 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	add_if_not_exist('ws_usuarios'			,'id_cargo'				,'int(11) 		NULL default "0"');
 	add_if_not_exist('ws_usuarios'			,'add_user'				,'int(1)		NULL default "0"');
 	add_if_not_exist('ws_usuarios'			,'edit_only_own '		,'int(1)		NULL default "0"');
+	add_if_not_exist('ws_usuarios'			,'webmaster'			,'int(1)		NULL default "0"');
 	add_if_not_exist('ws_usuarios'			,'admin'				,'int(1)		NULL default "0"');
 	add_if_not_exist('ws_usuarios'			,'nome'					,'varchar(100) 	NULL default ""');
 	add_if_not_exist('ws_usuarios'			,'sobrenome'			,'varchar(100) 	NULL default ""');

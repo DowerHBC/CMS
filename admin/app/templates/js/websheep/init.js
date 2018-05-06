@@ -127,38 +127,39 @@ $(document).ready(function(){
 			// 	bottomColor:"#000"
 			// })
 
-			if(directAccess.oldVersion.deprecated==true){
-				ws.alert.top({
-					mensagem:"A sua versão do painel está obsoleta. <a id='update'><b>Faça update agora</b></a> ",
-					clickclose:true,
-					height:20,
-					timer:7000,
-					posFn:function(){ 
-						$("#update").bind("click tap press",function(){
-							$(".updateRestore").click();						
-						})
-					},
-					styleText:"color:#ffffff",
-					background:"#bc0d0d",
-					bottomColor:"#000"
-				})
-			}
-
-			if(directAccess.newUpdate==true){
-				ws.alert.top({
-					mensagem:"Oba! O WebSheep disponibilizou uma atualização do painel! <a id='update'><b>Faça update agora</b></a> ",
-					clickclose:true,
-					height:20,
-					timer:10000,
-					posFn:function(){ 
-						$("#update").bind("click tap press",function(){
-							$(".updateRestore").click();						
-						})
-					},
-					styleText:"color:#ffffff;text-shadow: -1px -1px 1px #3a5104;",
-					background:"#75a700",
-					bottomColor:"#000"
-				})
+			if(typeof directAccess!='undefined'){
+				if(directAccess.oldVersion.deprecated==true){
+					ws.alert.top({
+						mensagem:"A sua versão do painel está obsoleta. <a id='update'><b>Faça update agora</b></a> ",
+						clickclose:true,
+						height:20,
+						timer:7000,
+						posFn:function(){ 
+							$("#update").bind("click tap press",function(){
+								$(".updateRestore").click();						
+							})
+						},
+						styleText:"color:#ffffff",
+						background:"#bc0d0d",
+						bottomColor:"#000"
+})
+				}
+				if(directAccess.newUpdate==true){
+					ws.alert.top({
+						mensagem:"Oba! O WebSheep disponibilizou uma atualização do painel! <a id='update'><b>Faça update agora</b></a> ",
+						clickclose:true,
+						height:20,
+						timer:10000,
+						posFn:function(){ 
+							$("#update").bind("click tap press",function(){
+								$(".updateRestore").click();						
+							})
+						},
+						styleText:"color:#ffffff;text-shadow: -1px -1px 1px #3a5104;",
+						background:"#75a700",
+						bottomColor:"#000"
+})
+				}
 			}
 			window.CloseMenu = function(){
 				$("#menu_tools,#container").removeClass("open").addClass("closed"); 

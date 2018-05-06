@@ -2244,8 +2244,8 @@
 			<link rel="stylesheet" href="<?=ws::rootPath?>admin/app/templates/css/fontes/fonts.css">
 			<div style="float:left;position:absolute;left:50%;transform: translate(-50%,-50%);width: auto;top: 50%;border-left: solid 10px #00939d;padding-left: 10px;">
 				<span style="font-family:\'Titillium Web\';font-weight:100;float:left;width:100%;color:#00939d;font-size: 17px;text-align: left;">
-					<strong>Título da página:</strong> /includes/'.$_getInput['oldName'].'<br>
-					<strong>Local do arquivo:</strong> '.DOMINIO.'/'.$_getInput['file'].'<br>
+					<strong>Título da página:</strong> '.ws::rootPath.'includes/'.$_getInput['oldName'].'<br>
+					<strong>Local do arquivo:</strong> '.DOMINIO.'/'.ws::rootPath.$_getInput['file'].'<br>
 					<strong>Criado em:</strong>'.date("d/m/Y às H:i:s").'<br>
 				</span>	
 			</div>';
@@ -2619,8 +2619,8 @@
 			<div style="float:left;position:absolute;left:50%;transform: translate(-50%,-50%);width: auto;top: 50%;border-left: solid 10px #00939d;padding-left: 10px;">
 				<span style="font-family:\'Titillium Web\';font-weight:100;float:left;width:100%;color:#00939d;font-size: 17px;text-align: left;">
 					<strong>Título da página:</strong> '.$_getInput['titulo_page'].'<br>
-					<strong>Local do arquivo:</strong> /includes/'.$_getInput['file'].'<br>
-					<strong>URL de acesso:</strong> '.DOMINIO.'/'.$_getInput['path'].'<br>
+					<strong>Local do arquivo:</strong> '.ws::rootPath.'includes/'.$_getInput['file'].'<br>
+					<strong>URL de acesso:</strong> '.DOMINIO.'/'.ws::rootPath.$_getInput['path'].'<br>
 					<strong>Criado em:</strong>'.date("d/m/Y às H:i:s").'<br>
 				</span>	
 			</div>';

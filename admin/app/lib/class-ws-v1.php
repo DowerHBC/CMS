@@ -828,24 +828,31 @@
 				}
 			}
 			/*########################################*/
-			$controller = new controller();
+				$setupdata = new MySQL();
+				$setupdata->set_table(PREFIX_TABLES . 'setupdata');
+				$setupdata->select();
+				$setup = $setupdata->fetch_array[0];
+			/*########################################*/
+				$controller = new controller();
+
+
+				if ($setup['domain_status'] == 0 && $setup['congelaFull'] == 1) {
+					header('Content-Type: text/html; charset=utf-8');
+					$controller->includeFile($setup['url_congelamento']);
+					exit;
+				}
+
+
+				if ($setup['domain_status'] == 0 && $setup['congelaFull'] == 0 && ws::urlPath() == ws::rootPath) {
+					header('Content-Type: text/html; charset=utf-8');
+					$controller->includeFile($setup['url_congelamento']);
+					exit;
+				}
+			/*########################################*/
 			$_temp_ = new MySQL();
 			$_temp_->set_table(PREFIX_TABLES . 'ws_pages');
 			$_temp_->set_where('type="path"');
 			$_temp_->select();
-			$setupdata = new MySQL();
-			$setupdata->set_table(PREFIX_TABLES . 'setupdata');
-			$setupdata->select();
-			$setup = $setupdata->fetch_array[0];
-			
-			if ($setup['domain_status'] == 0 && $setup['congelaFull'] == 1) {
-				$controller->includeFile($setup['url_congelamento']);
-				exit;
-			}
-			if ($setup['domain_status'] == 0 && $setup['congelaFull'] == 0 && ws::urlPath(1) == "") {
-				$controller->includeFile($setup['url_congelamento']);
-				exit;
-			}
 			
 			if ($setup['url_setRoot'] != "") {
 				$controller->setRoot($setup['url_setRoot']);
@@ -1143,27 +1150,38 @@
 		# RETORNA JSON COM AS BRANCHES DO GITHUB
 		#############################################################################################
 		static function get_github_branches() {
-			$branches = curl_init();
-			curl_setopt($branches, CURLOPT_URL, 'https://api.github.com/repos/websheep/cms/branches');
-			curl_setopt($branches, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($branches, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($branches, CURLOPT_USERAGENT, "https://api.github.com/meta");
-			$json_branches = curl_exec($branches);
-			curl_close($branches);
-			return ($json_branches);
+			$url = 'https://api.github.com/repos/websheep/cms/branches';
+			if(remoteFileExists($url)==true){
+				$branches = curl_init();
+				curl_setopt($branches, CURLOPT_URL, $url);
+				curl_setopt($branches, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($branches, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($branches, CURLOPT_USERAGENT, "https://api.github.com/meta");
+				$json_branches = curl_exec($branches);
+				curl_close($branches);
+				return ($json_branches);
+			}else{
+				return false;
+			}
+
 		}
 		#############################################################################################
 		# RETORNA JSON COM OS COMMITS DO GITHUB
 		#############################################################################################
 		static function get_github_commits($brance='') {
-			$commits = curl_init();
-			curl_setopt($commits, CURLOPT_URL, 'https://api.github.com/repos/websheep/CMS/commits'.$brance);
-			curl_setopt($commits, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($commits, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($commits, CURLOPT_USERAGENT, "https://api.github.com/meta");
-			$json_commits = curl_exec($commits);
-			curl_close($commits);
-			return ($json_commits);
+			$url = 'https://api.github.com/repos/websheep/CMS/commits'.$brance;
+			if(remoteFileExists($url)==true){
+				$commits = curl_init();
+				curl_setopt($commits, CURLOPT_URL,$url);
+				curl_setopt($commits, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($commits, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($commits, CURLOPT_USERAGENT, "https://api.github.com/meta");
+				$json_commits = curl_exec($commits);
+				curl_close($commits);
+				return ($json_commits);
+			}else{
+				return false;
+			}
 		}
 		#############################################################################################
 		# 
@@ -1671,7 +1689,6 @@
 			return $this;
 		}
 		public function order($coluna = null, $order = null) {
-			
 			if (is_null($coluna) && is_null($order)) {
 				_erro(ws::GetDebugError(debug_backtrace(), ""));
 			}
@@ -1679,15 +1696,16 @@
 			if (is_string($coluna) && is_null($order)) {
 				if (strpos($coluna, ',')) {
 					$colunm = explode(',', $coluna);
+
 					$coluna = $colunm[0];
 					$order  = $colunm[1];
+
+
 				} else {
 					$order = "asc";
 				}
 			}
-			$not_prefix = array(
-				"id"
-			);
+			$not_prefix = array("id", "posicao", "ws_timespam", "token");
 			
 			
 			$this->OrderColum = $order;

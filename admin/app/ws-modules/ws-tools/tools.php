@@ -78,6 +78,7 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	$template->ToolsManager_CreateTool				= ws::getLang('ToolsManager>CreateTool');
 	$template->ToolsManager_ExportAll				= ws::getLang('ToolsManager>ExportAll');
 	$template->ToolsManager_DeleteAll				= ws::getLang('ToolsManager>DeleteAll');
+	$template->ToolsManager_pathTools				= ws::getLang('ToolsManager>pathTools');
 	$template->ToolsManager_Clear					= ws::getLang('ToolsManager>Clear');
 	$template->ToolsManager_Export					= ws::getLang('ToolsManager>Export');
 	$template->ToolsManager_Move					= ws::getLang('ToolsManager>Move');

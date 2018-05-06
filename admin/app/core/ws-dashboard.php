@@ -219,40 +219,42 @@
 	########################################################################################
 	#  VERIFICAMOS A VERSÃO DO PAINEL COM A VERSÃO DO GIT
 	########################################################################################
-	$GITVersion  		= json_decode(file_get_contents(ws::protocolURL().DOMINIO.ROOT_WEBSHEEP.'ws-branches'));
  	$versionDeprecated 	= 'false';
  	$versionNewVersion 	= $localVersion->version;
-
-	foreach ($GITVersion as $value) {
-		if (version_compare($localVersion->version, str_replace('v.',"",$value->name)) < 0) {
-			$versionDeprecated = 'true';
-			$versionNewVersion = str_replace('v.',"",$value->name);
+ 	
+ 	$wsBranches = ws::protocolURL().DOMINIO.ROOT_WEBSHEEP.'ws-branches';
+ 	if(remoteFileExists($wsBranches)==true){
+		$GITVersion  		= json_decode(file_get_contents($wsBranches));
+		foreach ($GITVersion as $value) {
+			if (version_compare($localVersion->version, str_replace('v.',"",$value->name)) < 0) {
+				$versionDeprecated = 'true';
+				$versionNewVersion = str_replace('v.',"",$value->name);
+			}
 		}
-	}
+ 	}
 	$TEMPLATE->VDEPRECATED	= $versionDeprecated;
 	$TEMPLATE->VNEW_VERSION	= $versionNewVersion;
 	$TEMPLATE->NEW_UPDATE	= 'false';
 
-
 	########################################################################################
 	#  AGORA VERIFICAMOS SE A VERSÃO ATUAL TEVE UPDATE  
 	########################################################################################
-	if($versionDeprecated=='false'){
 		$url 			= 'http://websheep.com.br/commit/lasted-push-github.json';
-		$lastVersion 	= @file_get_contents($url);
+		if(remoteFileExists($url)==true && @$versionDeprecated=='false'){
+			$lastVersion 	= @file_get_contents($url);
+			if($lastVersion){
+				$lastVersion = json_decode($lastVersion);
+				$githubData = new DateTime($lastVersion[0]->date.'T'.$lastVersion[0]->time);
+				$githubData = $githubData->format('Y-m-d H:i:s');
+				$myLastUpdate = new DateTime($setupdata['data_update']);
+				$myLastUpdate = $myLastUpdate->format('Y-m-d H:i:s');
 
-		if($lastVersion){
-			$lastVersion = json_decode($lastVersion);
-			$githubData = new DateTime($lastVersion[0]->date.'T'.$lastVersion[0]->time);
-			$githubData = $githubData->format('Y-m-d H:i:s');
-			$myLastUpdate = new DateTime($setupdata['data_update']);
-			$myLastUpdate = $myLastUpdate->format('Y-m-d H:i:s');
-
-			if($githubData > $myLastUpdate){
-				$TEMPLATE->NEW_UPDATE='true';
+				if($githubData > $myLastUpdate){
+					$TEMPLATE->NEW_UPDATE='true';
+				}
 			}
 		}
-	}
+
 
 	########################################################################################
 	#  RETORNA O HTML MONTADO   

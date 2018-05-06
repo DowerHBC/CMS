@@ -415,7 +415,15 @@ function InsertCodeCampos(){
 
 				}elseif( $toll['type']=="thumbmail"){
 					$output.= '		//retorno da imagem:  ( path/largura/altura/imagem ) '."\n";
-					$output .= "		echo '<img src=\"".ws::rootPath."ws-img/0/0/'.\$data->".$toll['coluna_mysql'].".'\"/>';\n";
+
+
+ 					$output.= '		echo \'<picture>'."\n";
+                    $output.= '		    	<source media="(max-width: 992px)" 	srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->'.$toll['coluna_mysql'].'.\'">'."\n";
+                    $output.= '		    	<source media="(max-width: 1382px)" 	srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->'.$toll['coluna_mysql'].'.\'">'."\n";
+                    $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->'.$toll['coluna_mysql'].'.\'">'."\n";
+                    $output.= '			</picture>\';'."\n";
+
+
 				}else{
 					$output .= '		echo \'<div>\'.$data->'.$toll['coluna_mysql'].'.\'</div>\';'."\n";
 				}
@@ -427,7 +435,13 @@ function InsertCodeCampos(){
 			$output .= '		echo \'<div>\'.$data->titulo.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->texto.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->url.\'</div>\';'."\n";
-			$output .= '		echo \'<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->avatar.\'"/>\';'."\n";
+			$output.= '			echo \'<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)" 	srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->avatar.\'">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)" 	srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->avatar.\'">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->avatar.\'">'."\n";
+	        $output.= '			</picture>\';'."\n";
+
+
 		}
 
 		if(isset($_FORM['type']) && $_FORM['type']=='img_gal'){
@@ -437,7 +451,13 @@ function InsertCodeCampos(){
 			$output .= '		echo \'<div>\'.$data->token.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->filename.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->posicao.\'</div>\';'."\n";
-			$output .= '		echo \'<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->file.\'"/>\';'."\n";
+			$output.= '			echo \'<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->file.\'">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->file.\'">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->file.\'">'."\n";
+	        $output.= '			</picture>\';'."\n";
+
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='img'){
 			$output .= '		echo \'<div>\'.$data->titulo.\'</div>\';'."\n";
@@ -445,14 +465,28 @@ function InsertCodeCampos(){
 			$output .= '		echo \'<div>\'.$data->url.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->filename.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->token.\'</div>\';'."\n";
-			$output .= '		echo \'<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->imagem.\'"/>\';'."\n";
+			$output.= '			echo \'<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->imagem.\'">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->imagem.\'">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->imagem.\'">'."\n";
+	        $output.= '			</picture>\';'."\n";
+
+
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='cat'){
 			$output .= '		echo \'<div>\'.$data->titulo.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->texto.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->avatar.\'</div>\';'."\n";
 			$output .= '		echo \'<div>\'.$data->token.\'</div>\';'."\n";
-			$output .= '		echo \'<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->avatar.\'"/>\';'."\n";
+			$output.= '			echo \'<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->avatar.\'">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/\'.$data->avatar.\'">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/\'.$data->avatar.\'">'."\n";
+	        $output.= '			</picture>\';'."\n";
+
+
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='file'){
 			$output .= '		echo \'<div>\'.$data->posicao.\'</div>\';'."\n";
@@ -492,7 +526,8 @@ function InsertCodeCampos(){
 	#####################################################################################################################
 	if(isset($_FORM['typeCode']) && $_FORM['typeCode']=="tag"){
 		$output =  "";
-		$output .= "\n".'<ws-tool slug="'.$ws_ferramentas->fetch_array[0]['slug'].'" type="'.$_FORM['type'].'">'."\n";
+		$output .=  "\n".'<!-- FERRAMENTA: '.$Ferramenta['_tit_topo_'].' -->'."\n";
+		$output .=  "\n".'<ws-tool slug="'.$ws_ferramentas->fetch_array[0]['slug'].'" type="'.$_FORM['type'].'">'."\n";
 		$output .=  '	<!--'."\n";
 		$output .=  '		OUTRAS TAGS DISPONÍIVEIS:'."\n";
 		$output .=  '		colum=""	linker="" linked="" distinct=""	utf8=""	url=""	order=""	category=""	 galery=""	 item="" 	 where=""	 innerItem=""  filter=""'."\n";
@@ -525,7 +560,14 @@ function InsertCodeCampos(){
 					$output .=	"	<!-- Theme: 	light, dark -->\n";
 					$output .= '	{{'.$toll['coluna_mysql'].',ws::audioData,(this),Retorno,w,h,Size,Theme}}'."\n";
 				}elseif( $toll['type']=="thumbmail"){
-					$output .= '	<img src="'.ws::rootPath.'ws-img/0/0/{{'.$toll['coluna_mysql'].'}}"/>'."\n";
+					$output.= '			<picture>'."\n";
+			        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{'.$toll['coluna_mysql'].'}}">'."\n";
+			        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{'.$toll['coluna_mysql'].'}}">'."\n";
+			        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/{{'.$toll['coluna_mysql'].'}}">'."\n";
+			        $output.= '			</picture>'."\n";
+
+
+
 				}else{
 					$output .= '	{{'.$toll['coluna_mysql'].'}}'."\n";
 				}
@@ -536,7 +578,12 @@ function InsertCodeCampos(){
 			$output .= '	{{titulo}}'."\n";
 			$output .= '	{{texto}}'."\n";
 			$output .= '	{{url}}'."\n";
-			$output .= '	<img src="'.ws::rootPath.'ws-img/0/0/{{avatar}}"/>'."\n";
+			$output.= '		<picture>'."\n";
+	        $output.= '		    <source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{avatar}}">'."\n";
+	        $output.= '		    <source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{avatar}}">'."\n";
+	        $output.= '		    <img src="'.ws::rootPath.'ws-img/0/0/{{avatar}}">'."\n";
+	        $output.= '		</picture>'."\n";
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='img_gal'){
 			$output .= '	{{titulo}}'."\n";
@@ -545,7 +592,12 @@ function InsertCodeCampos(){
 			$output .= '	{{token}}'."\n";
 			$output .= '	{{filename}}'."\n";
 			$output .= '	{{posicao}}'."\n";
-			$output .= '	<img src="'.ws::rootPath.'ws-img/0/0/{{file}}"/>'."\n";
+			$output .= '		<picture>'."\n";
+	        $output .= '		    <source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{file}}">'."\n";
+	        $output .= '		    <source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{file}}">'."\n";
+	        $output .= '		    <img src="'.ws::rootPath.'ws-img/0/0/{{file}}">'."\n";
+	        $output .= '		</picture>'."\n";
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='img'){
 			$output .= '	{{titulo}}'."\n";
@@ -553,14 +605,24 @@ function InsertCodeCampos(){
 			$output .= '	{{url}}'."\n";
 			$output .= '	{{filename}}'."\n";
 			$output .= '	{{token}}'."\n";
-			$output .= '	<img src="'.ws::rootPath.'ws-img/0/0/{{imagem}}"/>'."\n";
+			$output.= '		<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{imagem}}">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{imagem}}">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/{{imagem}}">'."\n";
+	        $output.= '			</picture>'."\n";
+
 		}
 		if(isset($_FORM['type']) && $_FORM['type']=='cat'){
 			$output .= '	{{titulo}}'."\n";
 			$output .= '	{{texto}}'."\n";
 			$output .= '	{{avatar}}'."\n";
 			$output .= '	{{token}}'."\n";
-			$output .= '	<img src="'.ws::rootPath.'ws-img/0/0/{{avatar}}"/>'."\n";
+			$output.= '		<picture>'."\n";
+	        $output.= '		    	<source media="(max-width: 992px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{avatar}}">'."\n";
+	        $output.= '		    	<source media="(max-width: 1382px)"		srcset="'.ws::rootPath.'ws-img/586/350/{{avatar}}">'."\n";
+	        $output.= '		    	<img src="'.ws::rootPath.'ws-img/0/0/{{avatar}}">'."\n";
+	        $output.= '			</picture>'."\n";
+
 		}	
 		if(isset($_FORM['type']) && $_FORM['type']=='file'){
 			$output .= '	{{posicao}}'."\n";
@@ -712,7 +774,9 @@ function getShortCodesPlugin (){
 			###########################################################################
 			# IMPORTA O ARQUIVO DO PLUGIN
 			###########################################################################
-			echo file_get_contents($path.'/'.$contents->plugin);
+			$pathFile = $path.'/'.$contents->plugin;
+			if(!file_exists($pathFile) && file_exists('/'.$pathFile)){$pathFile = '/'.$pathFile;}
+			echo file_get_contents($pathFile);
 
 			###########################################################################
 			# RETORNA OS JAVASCRIPTS

@@ -49,6 +49,8 @@
 					"{RECAPTCHA}",
 					"{LANG}",
 					'{{domain}}',
+					'{{INCLUDE_PATH}}',
+					'{{ROOT_WEBSHEEP}}',
 					);
 				$porisso= Array(
 					str_replace(PHP_EOL, "", $data['DOMINIO']),
@@ -60,6 +62,8 @@
 					str_replace(PHP_EOL, "", $data['RECAPTCHA']),
 					$data['LANG'],
 					$_SERVER['HTTP_HOST'],
+					INCLUDE_PATH,
+					ROOT_WEBSHEEP,
 				);
 				
 				$isso_Password = array(
