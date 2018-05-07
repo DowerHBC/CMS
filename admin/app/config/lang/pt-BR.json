@@ -555,6 +555,7 @@
 	"ToolsManager": {
 		"Title": "Gerenciador de ferramentas",
 		"Back": "Voltar",
+		"pathTools": "Gerenciar grupos",
 		"ImportTool": "Importar uma Ferramenta",
 		"CreateTool": "Criar uma ferramenta",
 		"ExportAll": "Exportar todos",

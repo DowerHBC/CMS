@@ -2,7 +2,7 @@
 ############################################################################################################################################
 # DEFINIMOS O ROOT DO SISTEMA
 ############################################################################################################################################
-	if(!defined("ROOT_WEBSHEEP"))	{
+if(!defined("ROOT_WEBSHEEP"))	{
 	$path = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'admin'));
 	$path = implode(array_filter(explode('/',$path)),"/");
 	define('ROOT_WEBSHEEP',(($path=="") ? "/" : '/'.$path.'/'));
@@ -171,29 +171,21 @@ function enviaemail(){
 		$mail->Subject =  utf8_decode("Recuperação de senha");
 		$mail->AltBody = strip_tags(utf8_decode('Olá '.$checkUser->fetch_array[0]['nome'].', para redefinir a sua senha, acesse o link a baixo.'));
 		$mail->AddEmbeddedImage(INCLUDE_PATH.'admin/app/templates/img/websheep/logoEmail.jpg', "topo", 'logoEmail.jpg');
-		$MENSAGEM = '
-			<img src="cid:topo" style="width: 177px;height: 38px;"><br>
-			Olá <b>'.$checkUser->fetch_array[0]['nome'].'</b>, para redefinir a sua senha, acesse o link a baixo.<br>
-			Esse link é um link temporário, e é válido por apenas 3 horas.<br><br>
-			Caso já tenha passado esse tempo, acesse novamente o painel, e gere outro link.<br><br><br>  
-			<b>Link dde acesso:</b><br>
-			'.DOMINIO.'/admin/?tokenRequest='.$token;
+
+		$MENSAGEM = '<img src="cid:topo" style="width: 177px;height: 38px;"><br>
+					Olá <b>'.$checkUser->fetch_array[0]['nome'].'</b>, para redefinir a sua senha, acesse o link a baixo.<br>
+					Esse link é um link temporário, e é válido por apenas 3 horas.<br><br>
+					Caso já tenha passado esse tempo, acesse novamente o painel, e gere outro link.<br><br><br>  
+					<b>Link dde acesso:</b><br>
+					'.DOMINIO.'/admin/?tokenRequest='.$token;
 		$mail->msgHTML(str_replace(PHP_EOL,"",$MENSAGEM));
-		if(!$mail->Send()) {
+		if(!@$mail->Send()) {
 		  	echo "Houve um erro ao enviar o email de recuperação.";
 		} else {
 		  	echo "Enviamos o link de recuperação para o e-mail informado.<br>Por favor, verifique sua caixa de entrada, e caso não esteja lá, verifique a lixeira.";
 		}
 	}
 }
-
 include_once(INCLUDE_PATH.'admin/app/lib/class-ws-v1.php');
 _exec($_REQUEST['function']);
 ob_end_flush();
-?>
-
-
-
-
-
-

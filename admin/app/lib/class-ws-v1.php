@@ -86,7 +86,6 @@
 			);
 		}
 		static function getFullPath(){			return INCLUDE_PATH;}
-		
 		static function getRootPath(){			return ROOT_WEBSHEEP;}
 		static function getFullSitePath(){		return ws::getFullPath().'/website/';}
 		static function create_thumbnail( $file, $w=0, $h=0,$q=null){
@@ -128,9 +127,6 @@
 					);
 				return $array;
 			 }
-
-
-
 		}
 		static function fb_count_comments($domain = null) {
 			if ($domain == null) {
@@ -182,7 +178,6 @@
 			    fclose ( $tmp );
 			    return  $content;
 			}
-
 		}
 		public function insertVal($colum = null, $value = null) {
 			$this->setinsertcolum[] = array(
@@ -1631,10 +1626,14 @@
 					$key    = substr($str, 0, stripos($str, '}}'));
 					$newKey = explode(',', $key);
 					$COLUNA = (
-									$newKey[0]		!= "id" 		&& 
-									$newKey[0] 		!= "ws_count" 	&&
-									$newKey[0] 		!= "ws_total" 	
-									// && $this->thisType == "item" 		
+									$newKey[0]			!= "id" 		 
+									&& $newKey[0] 		!= "ws_count" 	
+									&& $newKey[0] 		!= "ws_total" 	
+									&& $this->thisType 	!= "img" 		
+									&& $this->thisType 	!= "gal" 
+									&& $this->thisType 	!= "cat" 
+									&& $this->thisType 	!= "file" 
+									&& $this->thisType 	!= "img_gal" 
 								) ? $this->ws_prefix_ferramenta . $newKey[0] : $newKey[0];
 
 					if (count($newKey) == 1) {
@@ -1753,6 +1752,7 @@
 			}
 			if ($this->thisType == 'img') {
 				$set_where .= " AND avatar='0' AND painel='0' ";
+
 			} elseif ($this->thisType == 'file') {
 				$set_where .= " AND painel='0' ";
 			}
