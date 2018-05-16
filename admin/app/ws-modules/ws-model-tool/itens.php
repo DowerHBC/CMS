@@ -112,9 +112,15 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 			$_SET_TEMPLATE_INPUT->block("BT_CAT");
 	}
 
-
-
-
+	####################################################################################
+	# ORNDENAMOS 
+	####################################################################################
+	$itens = new MySQL();
+	$itens->set_table(PREFIX_TABLES . "_model_item ");
+	$itens->set_where(' ws_id_draft="0" ');
+	$itens->set_where(' AND ws_id_ferramenta="' . $_GET['ws_id_ferramenta'] . '" ');
+	$itens->set_colum('id');
+	$itens->select();
 
 	$s = new MySQL();
 	$s->set_table(PREFIX_TABLES . "ws_ferramentas");
@@ -125,10 +131,14 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 
 	$itens = new MySQL();
 	$itens->url('decode');
+
+
 	$itens->set_table(PREFIX_TABLES . "_model_item ");
 	$itens->set_where(' ws_id_draft="0" ');
 	$itens->set_where(' AND ws_id_ferramenta="' . $_GET['ws_id_ferramenta'] . '" ');
 	$itens->set_colum('id');
+
+
 	$itens->set_colum('posicao');
 	$itens->set_colum('ws_author');
 	$rows = explode(',', $colunas);
@@ -204,11 +214,17 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	########################################################################
 	# INICIAMOS O FOREACH PARA EXIBIR O RESULTADO 
 	########################################################################
-	$itens->set_order("posicao","ASC");
-	$itens->select();
+		$itens->set_order("posicao","ASC");
+		$itens->select();
+
+
+
+
 	foreach ($itens->fetch_array as $item) {
+
 			$_SET_TEMPLATE_INPUT->ID_ITEM 	= $item['id'];
 			$_SET_TEMPLATE_INPUT->POSITION 	= $item['posicao'];
+
 			foreach ($rows as $value) {
 					$campo = new MySQL();
 					$campo->set_table(PREFIX_TABLES . "_model_campos");

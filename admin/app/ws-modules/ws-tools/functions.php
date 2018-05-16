@@ -962,6 +962,14 @@
 		$_exc_ferramenta_->set_table(PREFIX_TABLES . 'ws_ferramentas');
 		$_exc_ferramenta_->set_where('id="' . $id_ferramenta . '"');
 		$_exc_ferramenta_->exclui();
+
+		$delete_group = new MySQL();
+		$delete_group->set_table(PREFIX_TABLES.'ws_link_path_tools');
+		$delete_group->set_where('id_tool='.$id_ferramenta);
+		$delete_group->exclui();
+
+
+
 		// agora exclui as colunas
 		$s = new MySQL();
 		$s->set_table(PREFIX_TABLES . "_model_item");
@@ -977,6 +985,10 @@
 		}
 		$s->debug(0);
 		$s->exclui_column();
+
+
+
+
 	}
 	function _file_($token, $w, $id = '') {
 		return str_replace(array(
@@ -1382,16 +1394,65 @@
 				$U->set_where('token="' . $token . '"');
 				$U->set_update('posicao', $i);
 				$U->salvar();
-				
 				$U = new MySQL();
 				$U->set_table(PREFIX_TABLES . 'ws_pages');
 				$U->set_where('token="' . $token . '"');
 				$U->set_update('posicao', $i);
+				$U->salvar();			
+				$i++;
+			}
+		}
+		echo 'sucesso';
+		exit;
+	}	
+	//############################################################################################### RENOMEIA PATH DAS FERRAMENTAS
+	function saveLabelPathTool() {
+		$i = 1;
+		$U = new MySQL();
+		$U->set_table(PREFIX_TABLES . 'ws_path_tools');
+		$U->set_where('id="' . $_POST['id'] . '"');
+		$U->set_update('path_name', $_POST['path_name'] );
+		$U->salvar();
+		echo 'sucesso';
+		exit;
+	}
+	//############################################################################################### EXCLUI PATH DAS FERRAMENTAS
+	function excluiPathTool() {
+		$i = 1;
+		$delete_group= new MySQL();
+		$delete_group->set_table(PREFIX_TABLES . 'ws_path_tools');
+		$delete_group->set_where('id="' . $_POST['id'] . '"');
+		$delete_group->exclui();
+
+		$delete_link = new MySQL();
+		$delete_link->set_table(PREFIX_TABLES.'ws_link_path_tools');
+		$delete_link->set_where('id_path='.$_POST['id']);
+		$delete_link->exclui();
+
+
+
+		echo 'sucesso';
+		exit;
+	}
+	//############################################################################################### EXCLUI PATH DAS FERRAMENTAS
+	function addPathTool() {
+		$U = new MySQL();
+		$U->set_table(PREFIX_TABLES . 'ws_path_tools');
+		$U->set_insert('path_name', '');
+		$U->insert();
+		echo 'sucesso';
+		exit;
+	}
+	//############################################################################################### REPOSICIONA PATHS DA FERRAMENTA
+	function ordenaPathsFerramenta() {
+		$i = 1;
+		foreach ($_REQUEST['posicoes'] as $id) {
+			if ($id) {
+				$U = new MySQL();
+				$U->set_table(PREFIX_TABLES . 'ws_path_tools');
+				$U->set_where('id="' . $id . '"');
+				$U->set_update('posicao', $i);
 				$U->salvar();
-				
-				
-				
-				
 				$i++;
 			}
 		}
@@ -2402,13 +2463,14 @@
 		}
 	}
 	function addApp() {
+
 		$_getInput = array();
 		$isso      = array();
 		$porisso   = array();
 		parse_str($_REQUEST['AppData'], $_getInput);
 		// CASO A FERRAMENTA SEJA UM CLONE
 		$_PREFIXO_ = $_getInput['prefix'];
-		
+
 		$complementoTitulo = "";
 		if ($_getInput['ToolModel'] != '0') {
 			$ORIGINAL = new MySQL();
@@ -2589,6 +2651,18 @@
 			$updateListagem->set_where('token="' . $tokenNovaFerramenta . '"');
 			$updateListagem->set_update('det_listagem_item', implode($original, ','));
 			$updateListagem->salvar();
+
+			if(isset($_REQUEST['group'])){
+				$_GROUPS	= array_unique($_REQUEST['group']);
+				foreach ($_GROUPS as  $group) {
+					$insert_to_group = new MySQL();
+					$insert_to_group->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+					$insert_to_group->set_insert('id_tool', $NovaFerramenta['id']);
+					$insert_to_group->set_insert('id_path', $group);
+					$insert_to_group->insert();
+				}
+			}
+
 			echo template($NovaFerramenta['id'], $NovaFerramenta['_tit_menu_'], $NovaFerramenta['token']);
 		}
 	}
@@ -2754,6 +2828,24 @@
 		$Salva->set_update('html_file', 	mysqli_real_escape_string($_conectMySQLi_, str_replace("{{",'{{{_}',@$_REQUEST['html_file'])));
 
 
+		#######################################################################################
+		# APAGA TODOS OS REGISTROS DA FERRAMENTA NOS VINCULOS
+		#######################################################################################
+		$t_ferramentas = new MySQL();
+		$t_ferramentas->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+		$t_ferramentas->set_where('id_tool="'.$_REQUEST['ws_id_ferramenta'].'"');
+		$t_ferramentas->exclui();
+
+		#######################################################################################
+		# AGORA GRAVA UM POR UM NOVAMENTE
+		#######################################################################################
+		foreach ($_REQUEST['groups'] as $value) {
+			$grupos = new MySQL();
+			$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+			$grupos->set_insert('id_tool', $_REQUEST['ws_id_ferramenta']);
+			$grupos->set_insert('id_path', $value);
+			$grupos->insert();
+		}
 
 		if ($Salva->salvar()) {
 			// DEPOIS QUE GRAVA, CRIA-SE TODAS AS TABELAS MYSQL DA FERRAMENTA
@@ -2762,8 +2854,8 @@
 			$t_ferramentas->set_where('id="' . $_REQUEST['ws_id_ferramenta'] . '"');
 			$t_ferramentas->set_update('_alterado_', '1');
 			$t_ferramentas->salvar();
-
 			$session->set('ws_id_ferramenta',$_REQUEST['ws_id_ferramenta']);
+
 
 			ws::updateTool($_REQUEST['ws_id_ferramenta']);
 			echo "sucesso";

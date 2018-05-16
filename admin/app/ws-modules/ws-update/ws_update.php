@@ -136,6 +136,8 @@ error_reporting( E_ALL );
 	add_if_not_exist('meta_tags',				'type',				'varchar(350) 		NULL default ""');
 	add_if_not_exist('meta_tags',				'media',			'varchar(350) 		NULL default ""');
 	add_if_not_exist("meta_tags",				'ws_timestamp',		'TIMESTAMP 	NOT NULL DEFAULT CURRENT_TIMESTAMP');
+
+
 ###############################################################################################################
 ############################################# UPDATE NAS TABELAS DO SISTEMA ###################################
 ###############################################################################################################
@@ -182,6 +184,7 @@ error_reporting( E_ALL );
 	add_if_not_exist('bkp_ws',				'token',		'varchar(150) 	NULL default ""');
 	add_if_not_exist('bkp_ws',				'criacao',		'timestamp 	NOT NULL DEFAULT CURRENT_TIMESTAMP');
 
+
 ###############################################################################################################
 ################################################	ws_user_link_ferramenta		###############################
 ###############################################################################################################
@@ -190,6 +193,7 @@ error_reporting( E_ALL );
 	add_if_not_exist('ws_user_link_ferramenta',		'id_user',			'int(11) NOT NULL default "0"');
 	add_if_not_exist('ws_user_link_ferramenta',		'id_ferramenta',	'int(11) NOT NULL default "0"');
 	add_if_not_exist("ws_user_link_ferramenta",		'ws_timestamp',		'TIMESTAMP 	NOT NULL DEFAULT CURRENT_TIMESTAMP');
+
 
 ###############################################################################################################
 ####################################################	ws_link_itens		###################################
@@ -202,6 +206,8 @@ error_reporting( E_ALL );
 	add_if_not_exist('ws_link_itens',		'id_item_link'		,'int(11) NOT NULL default "0"');
 	add_if_not_exist('ws_link_itens',		'id_cat_link'		,'int(11) NOT NULL default "0"');
 	add_if_not_exist("ws_link_itens",		'ws_timestamp'		,'TIMESTAMP 	NOT NULL DEFAULT CURRENT_TIMESTAMP');
+
+
 ###############################################################################################################
 ################################################	ws_ferramentas		#######################################
 ###############################################################################################################
@@ -251,6 +257,23 @@ error_reporting( E_ALL );
 	add_if_not_exist('ws_ferramentas'		,'_extencao_',			'varchar(255)				NULL default ""');
 	add_if_not_exist("ws_ferramentas"		,'ws_timestamp',		'TIMESTAMP 	NOT NULL DEFAULT CURRENT_TIMESTAMP');
 	add_if_not_exist("ws_ferramentas"		,'image_tool',			'LONGTEXT  NULL default NULL');
+
+
+###############################################################################################################
+################################################	ws_ferramentas		#######################################
+###############################################################################################################
+	CreateTableIfNotExist('ws_link_path_tools');
+	add_if_not_exist('ws_link_path_tools'		,'id_tool',			'int(11) 				NOT NULL DEFAULT FALSE');
+	add_if_not_exist('ws_link_path_tools'		,'id_path',			'int(11) 				NOT NULL DEFAULT FALSE');
+
+###############################################################################################################
+################################################	ws_ferramentas		#######################################
+###############################################################################################################
+	CreateTableIfNotExist('ws_path_tools');
+	add_if_not_exist('ws_path_tools'		,'path_name',			'varchar(200) 			NULL default ""');
+	add_if_not_exist('ws_path_tools'		,'posicao',				'int(11) 				NOT NULL default FALSE');
+
+
 
 ###############################################################################################################
 ################################################	ws_usuarios		###########################################

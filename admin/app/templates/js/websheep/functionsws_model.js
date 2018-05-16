@@ -1115,35 +1115,56 @@ ws = {
 		if(typeof opcoes === 'string') {
 			var options = ws.extend({
 				cabecalho: opcoes,
-				initOpen: function(e) {},
-				initClose: function(e) {},
-				finishOpen: function(e) {},
-				finishClose: function(e) {},
+				closeOthers: true,
+				initOpen: null,
+				initClose: null,
+				finishOpen: null,
+				finishClose: null,
 			}, null);
 		} else {
 			var options = ws.extend({
-				cabecalho: "",
-				initOpen: function(e) {},
-				initClose: function(e) {},
-				finishOpen: function(e) {},
-				finishClose: function(e) {},
+				closeOthers: true,
+				cabecalho: null,
+				initOpen: null,
+				initClose: null,
+				finishOpen: null,
+				finishClose: null,
 			}, opcoes);
 		}
-		$(options.cabecalho).next().slideUp("slow");
-		$(options.cabecalho).click(function() {
-			if($(this).next().hasClass('SanfonaOpen')) {
-				$(this).removeClass('FolderOpen');
-				options.initClose();
-				$(this).next().slideUp("slow", function() {
-					options.finishClose()
-				}).removeClass('SanfonaOpen');
-			} else {
-				options.initOpen()
-				$(this).addClass('FolderOpen');
-				$(this).next().slideDown("slow", function() {
-					options.finishOpen()
-				}).addClass('SanfonaOpen');
-			};
+
+
+		$(options.cabecalho).next().slideUp("fast");
+
+		/*########################################################*/
+
+		
+		$(options.cabecalho).unbind('click tap press').bind("click tap press", function() {
+			var _THIS_ = this;
+			if(options.closeOthers==true){
+					if($(_THIS_).next().hasClass('accordion-open')){
+						if(options.initClose!=null){options.initClose()}
+						$(options.cabecalho).next().slideUp("fast",function(){
+							if(options.finishClose!=null){options.finishClose()}
+						}).removeClass('accordion-open');		
+					}else{
+						if(options.initClose!=null){options.initClose()}
+						$(options.cabecalho).next().slideUp("fast",function(){if(options.finishClose!=null){options.finishClose()}});
+						$(_THIS_).next().slideDown("slow", function() {
+						 	if(options.finishOpen!=null){options.finishOpen()}
+						}).addClass("accordion-open");
+					}
+			}else{
+				if($(_THIS_).next().hasClass('accordion-open')){
+					if(options.initClose!=null){options.initClose()}
+					$(_THIS_).next().slideUp("fast",function(){
+						if(options.finishClose!=null){options.finishClose()}
+					}).removeClass('accordion-open');		
+				}else{
+					$(_THIS_).next().slideDown("slow", function() {
+					 	if(options.finishOpen!=null){options.finishOpen()}
+					}).addClass("accordion-open");
+				}
+			}
 		});
 	},
 	string: {
@@ -1225,8 +1246,12 @@ ws = {
 		ws.verify.jquery();
 		var options = ws.extend({
 			conteudo:'',
-			width: 500,
-			height: 'auto',
+			width: 'calc(100% - 20px)',
+			maxWidth: '1000px',
+			minWidth: '300px',
+			height: 'calc(100% - 200px)',
+			maxHeight: '600px',
+			minHeight: '600px',
 			mleft: 0,
 			mtop: 0,
 			posFn: function() {},
@@ -1328,7 +1353,11 @@ ws = {
 		$('body').prepend("<div id='" + options.idModal + "' class='ws_popup_confirm' style='opacity:1;width:100%;height:100%;z-index:" + index_highest + "!important'><div class='body'>" + BotFechar+"<div class='ws_confirm_conteudo w1'>" + options.conteudo + "</div>" + Botoes + "</div></div>");
 		$("#" + options.idModal + " .body").css({
 			"width": options.width,
-			"height": options.height
+			"max-width": options.maxWidth,
+			"min-width": options.minWidth,
+			"height": options.height,
+			"max-height": options.maxHeight,
+			"min-height": options.minHeight
 		});
 		if(options.cancel == false) {
 			$("#" + options.idModal + " .aceitar").css({

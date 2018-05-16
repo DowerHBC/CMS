@@ -419,6 +419,7 @@
 					return false;
 				}
 			}
+			###################################################################################
 		}
 		###################################################################################
 		# LIMITA TEXTOS OU FRASES POR QUANTIDADE DE PALAVRAS
@@ -512,7 +513,6 @@
 					}
 				}
 			}
-			
 			return ($_URL_VIDEO);
 		}
 		###################################################################################
@@ -763,7 +763,7 @@
 			// VERIFICA NO SISTEMA SE O CACHE ESTÁ HABILITADO  E QUE CACHE EXISTA O ARQUIVO E INSERE
 			if ($setupdata['ws_cache'] == '1' && file_exists(ws::includePath.'ws-cache/'.$urlCache)) {
 				ob_end_clean();
-				echo PHP_EOL.PHP_EOL.'<script type="text/javascript" src="'.ws::rootPath.'admin/app/templates/js/websheep/ws-client-side-record.js"></script>'.PHP_EOL.PHP_EOL;
+			//	echo PHP_EOL.PHP_EOL.'<script type="text/javascript" src="'.ws::rootPath.'admin/app/templates/js/websheep/ws-client-side-record.js"></script>'.PHP_EOL.PHP_EOL;
 				include(ws::includePath.'ws-cache/'.$urlCache);
 				exit;
 			}
@@ -1029,7 +1029,7 @@
 				// GRAVA O ARQUIVO COM O NOME CORRETO
 				file_put_contents(ws::includePath.'ws-cache/'.$urlCache, $_outPutCacheHTML);
 			}
-				echo PHP_EOL.PHP_EOL.'<script type="text/javascript" src="'.ws::rootPath.'admin/app/templates/js/websheep/ws-client-side-record.js"></script>'.PHP_EOL.PHP_EOL;
+			//	echo PHP_EOL.PHP_EOL.'<script type="text/javascript" src="'.ws::rootPath.'admin/app/templates/js/websheep/ws-client-side-record.js"></script>'.PHP_EOL.PHP_EOL;
 				echo $_outPutCache;
 			ob_end_flush();
 		}

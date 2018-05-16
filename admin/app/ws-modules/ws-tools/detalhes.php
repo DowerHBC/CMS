@@ -117,6 +117,10 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	$template->ToolsManager_ToolDetails_modal_save_sucess		=	ws::getLang("ToolsManager>ToolDetails>modal>save>sucess");
 	$template->ToolsManager_ToolDetails_AddHTML					=	ws::getLang("ToolsManager>ToolDetails>AddHTML");
 	$template->ToolsManager_ToolDetails_MaxItem					=	ws::getLang("ToolsManager>ToolDetails>MaxItem");
+	$template->ToolsManager_ToolDetails_groupOwned				=	ws::getLang("ToolsManager>ToolDetails>groupOwned");
+	$template->ToolsManager_ToolDetails_rootGroup				=	ws::getLang("ToolsManager>ToolDetails>rootGroup");
+
+
 	
 
 	$template->max_item 										=	stripcslashes($FERRAMENTA['max_item']);
@@ -169,12 +173,56 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	$detalhes->distinct();
 	$detalhes->select();
 
+
+	#####################################################  
+	# SELECIONAMOS OS CAMPOS DA FERRAMENTA 
+	#####################################################
+	$groups		= 	new MySQL();
+	$groups->set_table(PREFIX_TABLES.'ws_path_tools');
+	$groups->set_order('posicao','ASC');
+	$groups->select();
+
+	$groups_num_rows= 	new MySQL();
+	$groups_num_rows->set_table(PREFIX_TABLES.'ws_link_path_tools');
+	$groups_num_rows->set_where('id_tool="'.ws_id_ferramenta.'" AND id_path="0"');
+	$groups_num_rows->select();
+	if($groups_num_rows->_num_rows>0){
+		$template->checked_0='checked="checked"';
+	}else{
+		$template->checked_0='';
+	}
+
+
+
+	foreach($groups->fetch_array as $group){
+
+			$groups_num_rows= 	new MySQL();
+			$groups_num_rows->set_table(PREFIX_TABLES.'ws_link_path_tools');
+			$groups_num_rows->set_where('id_tool="'.ws_id_ferramenta.'" AND id_path="'.$group['id'].'"');
+			$groups_num_rows->select();
+			if($groups_num_rows->_num_rows>0){
+				$template->checked='checked="checked"';
+			}else{
+				$template->checked='';
+			}
+
+
+			$template->id=$group['id'];
+			$template->GRUPO_NAME=$group['path_name'];
+			$template->block('LIST_GROUP');
+
+
+		
+	}
+
+
+
+
+
 	#########################################################################  
 	# VARREMOS OS CAMPOS, E RETORNAMOS O TEMPLATE COM OS CAMPOS SELECIONADOS 
 	#########################################################################
-
 	$camposAutoComplete = array();
-
 	foreach($detalhes->fetch_array as $return){
 		$teste = explode(',',$FERRAMENTA['det_listagem_item']);
 		$return['selectmulti']		=	in_array($return['coluna_mysql'],$teste) ? "selected" : "";

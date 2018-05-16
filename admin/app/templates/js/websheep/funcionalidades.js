@@ -389,8 +389,8 @@ function include_js(documento,id,reload) {
 }
 function out(msn) {console.log(msn)}
 function trace(msn) {console.log(msn)}
+
 window.sanfona = function (opcoes){
-	
 	if ( typeof opcoes === 'string' ) { 
 		var options = $.extend({
 			cabecalho:opcoes,
@@ -410,17 +410,18 @@ window.sanfona = function (opcoes){
 	}
 	$(options.cabecalho).next().slideUp("slow");
 	$(options.cabecalho).unbind("click tap press").bind("click tap press", function(){
+		
 		if($(this).next().hasClass('SanfonaOpen')){
 			$(this).removeClass('FolderOpen');
-			options.initClose();
+			options.initClose($(this));
 			$(this).next().slideUp("slow",function(){
-				options.finishClose()
+				options.finishClose($(this))
 			}).removeClass('SanfonaOpen');
 		}else{
-			options.initOpen()
+			options.initOpen($(this))
 			$(this).addClass('FolderOpen');
 			$(this).next().slideDown("slow",function(){
-			options.finishOpen()
+			options.finishOpen($(this))
 			}).addClass('SanfonaOpen');
 		};
 	});

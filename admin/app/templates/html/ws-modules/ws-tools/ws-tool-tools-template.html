@@ -481,14 +481,16 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 				conteudo += "		<form id='detailsApp'>";
 				conteudo += "		<div class='w1' style='width: 100%;margin: 0px 0px 20px;text-align: center;font-size: 30px;font-weight: bold;'>{ToolsManager_Modal_ChooseApp}:</div>";
 				conteudo += "		<input name='page' type='hidden' value='"+id+"' ></input>";
-				conteudo += "		<div class='w1' style='text-align: left; width: 130px; float: left; margin-left: 50px; margin-right: 20px; position: relative;'>{ToolsManager_Modal_ColumnPrefix}:</div> ";
-				conteudo += "		<div class='w1' style='text-align: left;width: 250px;float: left;margin: 0;position: relative;'>{ToolsManager_Modal_AppName}:</div>";
-				conteudo += "		<div class='w1 hide_0' style='text-align: left;width: 190px;m;float: left;'>{ToolsManager_Modal_SlugTool}:</div>";
+				conteudo += "		<div class='w1' style='text-align: left; width: 140px; float: left; margin-left: 50px; margin-right: 10px; position: relative;'>{ToolsManager_Modal_ColumnPrefix}:</div> ";
+				conteudo += "		<div class='w1' style='text-align: left;width: 150px;float: left;margin: 0;position: relative;'>{ToolsManager_Modal_AppName}:</div>";
+				conteudo += "		<div class='w1 hide_0' style='text-align: left;width: 145px;m;float: left;'>{ToolsManager_Modal_SlugTool}:</div>";
+				conteudo += "		<div class='w1 hide_0' style='text-align: left;width: 130px;m;float: left;'>{ToolsManager_Modal_Group}:</div>";
 				conteudo += "		<div class='c'></div>";
 				conteudo += "		<input name='plugin' type='hidden' value='{MODAL_PLUGIN}'>";				
-				conteudo += "		<input name='prefix' style='padding: 10px 20px;	margin: 10px;	width:130px;	float: left;	margin-left: 50px;' class='inputText' value='' placeholder='ex: _galeriaX_'></input>";
-				conteudo += "		<input name='title' style='padding: 10px 20px; 	margin: 10px; 	width: 220px; 	float: left;' class='inputText' value='' placeholder='{ToolsManager_Modal_Example}'></input>";
-				conteudo += "		<input class='inputText hide_0' name='slug' style='padding: 10px 20px;	margin: 10px;	width:210px;	float: left;'  value='' placeholder='{ToolsManager_Modal_Example}'></input>";
+				conteudo += "		<input name='prefix' style='padding: 10px 20px;	margin: 10px;							width:130px;	float: left;  margin-left: 50px;' class='inputText' value='' placeholder='ex: _galeriaX_'></input>";
+				conteudo += "		<input name='title' style='padding: 10px 20px; 	margin: 10px; 							width:130px; 	float: left;' class='inputText' value='' placeholder='{ToolsManager_Modal_Example}'></input>";
+				conteudo += "		<input class='inputText hide_0' name='slug' style='padding: 10px 20px;	margin: 10px;	width:130px;	float: left;' value='' placeholder='{ToolsManager_Modal_Example}'></input>";
+				conteudo += "		<div class='botao' id='selectGroup' style='position: relative; float: left; padding: 12px 46px; margin-top: 10px;'><span class='icon fa fa-folder-open'></span>{ToolsManager_Modal_Group_Buttom}</div>";
 				conteudo += "		<div class='c'></div>";
 				conteudo += "		<div class='w1 hide_0' style='text-align: left; width:600px; margin: 0 50px;float: left;'>{ToolsManager_Modal_DoubleTool}</div>";
 				conteudo += "			<select class='inputText hide_0 selectTools' name='ToolModel' id='selectApp' style='float:left;padding: 10px;width:600px;margin:10px;margin-left: 50px;'><option value='0'>{ToolsManager_Modal_SelectTool}</option>";
@@ -512,7 +514,94 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 				},
 				bot2:'cancelar',
 				posFn:function(){
+					window.groupsTools = [];
 					 $(".selectTools").chosen({no_results_text: "Oops, nothing found!"}); 
+					 $("#selectGroup").unbind("click tap press").bind("click tap press",function(){
+							conteudo  = "	<div  style='width:600px;'>";
+							conteudo += "		<form id='detailsApp'>";
+							conteudo += "			<div class='w1' style='width: 100%;margin: 0px 0px 20px;text-align: center;font-size: 30px;font-weight: bold;'>{ToolsManager_Modal_Group_Title}</div>";
+							conteudo += "			<div class='c'></div>";
+							conteudo += "			<div class='w1' style='height: calc(100% - 40px);overflow: auto;text-align: left;width: calc(100% - 20px);margin: 0 10px;float: left;background-color: #FFF;border: solid 1px #CCC;'>";
+							conteudo += "			<label class='grupo' style='padding: 8px;border-bottom: dotted 1px #CCC;position: relative;float: left;width: calc(100% - 17px);'>"
+							conteudo += "				<input class='checkboxGrupo' type='checkbox' data-path='0' style='margin-right:3px; position:relative; margin-top:3px;'>{ToolsManager_Modal_rootGroup}"
+							conteudo += "			</label>"
+							<!-- BEGIN CATEGORIAS -->
+								conteudo += "			<label class='grupo' style='padding: 8px;border-bottom: dotted 1px #CCC;position: relative;float: left;width: calc(100% - 17px);'>"
+								conteudo += "				<input class='checkboxGrupo'  type='checkbox' data-path='{id}'  style='margin-right:3px; position:relative; margin-top:3px;'>{LABEL_GROUP}"
+								conteudo += "			</label>"
+							<!-- END CATEGORIAS -->
+							conteudo += "			</div>"
+							conteudo += "		</form>";
+							conteudo += "</div>";
+							ws.confirm({
+								conteudo:conteudo,
+								width: 'calc(100% - 20px)',
+								maxWidth: '600px',
+								minWidth: '300px',
+								maxHeight: '600px',
+								minHeight: '300px',
+								height: 'calc(100% - 100px)',
+								mleft: 0,
+								mtop: 0,
+								posFn: function() {
+									$('.checkboxGrupo').each(function(){
+										var check 	=  $(this)
+										var path 	=  $(check).data('path')
+										$.each(window.groupsTools,function(a){  
+											if(window.groupsTools[a]==path){
+												$(check).click()
+											}
+										})
+									});
+								},
+								Init: function() {},
+								posClose: function() {},
+								bots: [
+									{
+											id			: "aceitar",
+											label		: "{ToolsManager_Modal_ButtonLink}",
+											class		: "",
+											style 		: "",
+											css 		: {"color":"#FFF"},
+											ErrorCheck	: function() {},
+											Check 		: function() {return true},
+											action		: function(){
+												window.groupsTools = [];
+												$('.checkboxGrupo:checked').each(function(){
+													window.groupsTools.push($(this).data('path'))
+												})
+											},
+									},
+									{
+											id			: "cancelar",
+											label		: "{ToolsManager_Modal_Cancel}",
+											class		: "",
+											style 		: "",
+											css 		: {"color":"#FFF"},
+											ErrorCheck	: function() {},
+											Check 		: function() {return true},
+											action		: function(){console.log("1111111")},
+									}
+								],
+								bot1: false,
+								cancel: false,
+								idModal: "ws_select_group",
+								divScroll: "body",
+								divBlur: "#ws_confirm,#menu_tools,#container,#header",
+								drag: false,
+								botclose: false,
+								newFun: function() {},
+								onCancel: function() {},
+								onClose: function() {},
+								Callback: function() {},
+								ErrorCheck: function() {},
+								Check: function() {
+									return true
+								}
+							})
+					 }); 
+
+
 
 				},
 				newFun:function(){
@@ -520,8 +609,9 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 					$.ajax({
 					  type: "POST",
 					  url: "./app/ws-modules/ws-tools/functions.php",
-					  data: { function:"addApp",id:id,AppData:AppData,plugin:"{GET_PLUGIN}"}
+					  data: { function:"addApp",group:window.groupsTools,id:id,AppData:AppData,plugin:"{GET_PLUGIN}"}
 					}).done(function(data) {
+						
 						TopAlert({mensagem: "{ToolsManager_Modal_CreateOk}",type: 3})
 						window.refreshMenuDesktop();
 						$("#conteudo").load("./{PATH}/tools.php",function(){
@@ -597,7 +687,6 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 									  url: "./app/ws-modules/ws-tools/functions.php",
 									  data: { function:"excluiFerramenta",ws_id_ferramenta:patch}
 									}).done(function(data) {
-										out(data)
 										TopAlert({mensagem: "{ToolsManager_Modal_DelOk}",type: 3})
 										setTimeout(function(){$("#exportarTodos,#excluir").hide();},1000)
 										window.refreshMenuDesktop();
@@ -636,6 +725,13 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 		window.pageid=0;
 		$("#formUploadTool input[name='pageid']").val(window.pageid);
 		$("#formUploadTool #myfile").click();
+	})
+
+	$("#pathTools").unbind('click').click(function(){
+
+			$("#conteudo").load("./{PATH}/paths.php",function(){},1000);
+
+
 	})
 
 function SetupTool(Base64Var){

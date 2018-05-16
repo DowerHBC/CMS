@@ -113,9 +113,6 @@
 	$_WS_TOOL_->set_where('_plugin_="0"');
 	$_WS_TOOL_->set_where('AND App_Type="1"');
 	
-
-
-
 	if (SECURE!=FALSE && @$user->get('admin') ==0) {
 		$_WS_TOOL_->join(' INNER ', PREFIX_TABLES . 'ws_user_link_ferramenta as link', 'link.id_ferramenta=tools.id AND link.id_user="' . $user->get('id') . '"');
 	}
@@ -123,12 +120,53 @@
 	
 
 	########################################################################################################  
+	# GRUPOS
+	########################################################################################################
+	$_WS_PATH_ = new MySQL();
+	$_WS_PATH_->set_table(PREFIX_TABLES . '	ws_path_tools');
+	$_WS_PATH_->select();
+
+
+	########################################################################################################  
+	# FOREACH NOS PATHS 
+	########################################################################################################
+	foreach ($_WS_PATH_->fetch_array as $path) {
+		$menu_dashboard->label_path    = $path['path_name'];
+
+		foreach ($_WS_TOOL_->fetch_array as $inner_menu) {
+			########################################################################################################  
+			# VERIFICAMOS SE ELAS ESTÃO CADASTRADAS NO GRUPO ATUAL
+			########################################################################################################
+			$_WS_PATH_ = new MySQL();
+			$_WS_PATH_->set_table(PREFIX_TABLES . '	ws_link_path_tools');
+			$_WS_PATH_->set_where('id_tool="'.$inner_menu['id_tool'].'" AND id_path="'.$path['id'].'"');
+			$_WS_PATH_->select();
+			if($_WS_PATH_->_num_rows>0){
+				$menu_dashboard->ID    = $inner_menu['id_tool'];
+				$menu_dashboard->LABEL = $inner_menu['titulo'];
+				$menu_dashboard->block("INNER_TOOL");
+			}
+		}
+		$menu_dashboard->block("PATH_TOOL");
+	}
+
+	########################################################################################################  
 	# FOREACH NAS FERRAMENTAS CRIADAS E GUARDAMOS OS DADOS NO TEMPLATE 
 	########################################################################################################
-	foreach ($_WS_TOOL_->fetch_array as $inner_menu) {
-		$menu_dashboard->ID    = $inner_menu['id_tool'];
-		$menu_dashboard->LABEL = $inner_menu['titulo'];
-		$menu_dashboard->block("TOOL");
+
+	foreach ($_WS_TOOL_->fetch_array as $tool) {
+		########################################################################################################  
+		# VERIFICAMOS SE ELAS ESTÃO CADASTRADAS NO GRUPO ATUAL
+		########################################################################################################
+		$_WS_PATH_ = new MySQL();
+		$_WS_PATH_->set_table(PREFIX_TABLES . '	ws_link_path_tools');
+		$_WS_PATH_->set_where('id_tool="'.$tool['id_tool'].'" AND id_path="0"');
+		$_WS_PATH_->select();
+		if($_WS_PATH_->_num_rows>0){
+			$menu_dashboard->ID    = $tool['id_tool'];
+			$menu_dashboard->LABEL = $tool['titulo'];
+			$menu_dashboard->block("TOOL");
+		}
 	}
 
 	if ( SECURE==FALSE || $user->get('admin')==1) {

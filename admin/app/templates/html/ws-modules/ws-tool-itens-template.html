@@ -117,17 +117,32 @@
 				++i;
 			})
 
-				$.ajax({
-				  type: "POST",
-				  url: "./{PATH}/functions.php",
-				  data: {"function":"OrdenaItem","posicoes":posicoes,"ids":ids},
-				  beforeSend:function(){confirma({width:"auto",conteudo:"  {modulo_itens_modal_loading_content}<div class=\'preloaderupdate\' style=\'left: 50%;margin-left: -15px; position: absolute;width: 30px;height: 18px;top: 68px;background-image:url(\"./app/templates/img/websheep/loader_thumb.gif\");background-repeat:no-repeat;background-position: top center;\'></div>",drag:false,bot1:0,bot2:0})}
+			$.ajax({
+				type: "POST",
+				url: "./{PATH}/functions.php",
+				data: {"function":"OrdenaItem","posicoes":posicoes,"ids":ids},
+				beforeSend:function(){confirma({width:"auto",conteudo:"  {modulo_itens_modal_loading_content}<div class=\'preloaderupdate\' style=\'left: 50%;margin-left: -15px; position: absolute;width: 30px;height: 18px;top: 68px;background-image:url(\"./app/templates/img/websheep/loader_thumb.gif\");background-repeat:no-repeat;background-position: top center;\'></div>",drag:false,bot1:0,bot2:0})}
 				}).done(function(data) {
-					out(data)
-					$("#ws_confirm").remove();
-					$("#body").removeClass("scrollhidden");
-					$("*").removeClass("blur");
-				})
+				if(data.trim()=='sucesso'){
+					ws.alert.top({
+						mensagem: 		"Movido com sucesso",
+						color: 			"#FFFFFF",
+						background: 	"#a3ce3f",
+						bottomColor: 	"#007501",
+					})
+				}else{
+					ws.alert.top({
+						mensagem: 		"Ops, algo deu errado",
+						color: 			"#FFFFFF",
+						background: 	"#d8200b",
+						bottomColor: 	"#6b0f04",
+					})
+				}
+				out(data);
+				$("#ws_confirm").remove();
+				$("#body").removeClass("scrollhidden");
+				$("*").removeClass("blur");
+			})
 		}
 
 		$('#setLimit').val("{LIMIT}").chosen({width: 200,disable_search_threshold:10}).change(function(event){

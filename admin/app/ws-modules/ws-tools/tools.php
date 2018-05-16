@@ -102,6 +102,7 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	$template->ToolsManager_Modal_JustDel			= ws::getLang('ToolsManager>Modal>JustDel');
 	$template->ToolsManager_Modal_FileName			= ws::getLang('ToolsManager>Modal>FileName');
 	$template->ToolsManager_Modal_Cancel			= ws::getLang('ToolsManager>Modal>Cancel');
+	$template->ToolsManager_Modal_ButtonLink		= ws::getLang('ToolsManager>Modal>ButtonLink');
 	$template->ToolsManager_Modal_LoadEditor		= ws::getLang('ToolsManager>Modal>LoadEditor');
 	$template->ToolsManager_Modal_Loading			= ws::getLang('ToolsManager>Modal>Loading');
 	$template->ToolsManager_Modal_Verifying			= ws::getLang('ToolsManager>Modal>Verifying');
@@ -136,12 +137,16 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 	$template->ToolsManager_Modal_JustDel			= ws::getLang('ToolsManager>Modal>JustDel');
 	$template->ToolsManager_Modal_MySQLPrefix		= ws::getLang('ToolsManager>Modal>MySQLPrefix');
 	$template->ToolsManager_Modal_Slug				= ws::getLang('ToolsManager>Modal>Slug');
+	$template->ToolsManager_Modal_Group				= ws::getLang('ToolsManager>Modal>groupTool');
+	$template->ToolsManager_Modal_Group_Buttom		= ws::getLang('ToolsManager>Modal>groupToolButtom');
+	$template->ToolsManager_Modal_Group_Title		= ws::getLang('ToolsManager>Modal>selectGroupTitle');
 	$template->ToolsManager_Modal_NewNameTool		= ws::getLang('ToolsManager>Modal>NewNameTool');
 	$template->ToolsManager_Modal_Install			= ws::getLang('ToolsManager>Modal>Install');
 	$template->ToolsManager_Modal_ExistPrefix		= ws::getLang('ToolsManager>Modal>ExistPrefix');
 	$template->ToolsManager_Modal_ExistSlug			= ws::getLang('ToolsManager>Modal>ExistSlug');
 	$template->ToolsManager_Modal_ToolInstall		= ws::getLang('ToolsManager>Modal>ToolInstall');
 	$template->ToolsManager_Modal_ErrorInstall		= ws::getLang('ToolsManager>Modal>ErrorInstall');
+	$template->ToolsManager_Modal_rootGroup		= ws::getLang('ToolsManager>ToolDetails>rootGroup');
 	$template->PATH 								= PATH;
 
 
@@ -158,6 +163,7 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 		$template->clear("GOBACKBT");
 		$template->clear("GOBACKJS");
 	}
+
 
 	#####################################################  
 	# PUXAMOS DA BASE TODAS AS FERRAMENTAS
@@ -209,6 +215,38 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 
 	$template->MODAL_STR 	=	'<optgroup label=\"Ferramentas criadas\">'.implode($optTool).'</optgroup><optgroup label=\"Ferramentas clonadas\">'.implode($optCloneTool).'</optgroup>';
 	$template->GET_PLUGIN 	= 	(isset($_GET['plugin']) && $_GET['plugin']=="true") ? "1" : "0";
+
+
+	#####################################################  
+	# PUXAMOS DA BASE TODAS AS FERRAMENTAS
+	#####################################################
+	$_GROUPS = new MySQL();
+	$_GROUPS->set_table(PREFIX_TABLES."ws_path_tools");
+	$_GROUPS->set_order('posicao','ASC');
+	$_GROUPS->select();
+	#####################################################  
+	# RETORNAMOS O TEMPLATE DA FERRAMENTA
+	#####################################################
+	foreach($_GROUPS->fetch_array as $_GROUP){
+		$template->id 			= $_GROUP['id'];
+		$template->LABEL_GROUP 	= $_GROUP['path_name'];
+		$template->block("CATEGORIAS");
+		$template->id 			= $_GROUP['id'];
+		$template->LABEL_GROUP 	= $_GROUP['path_name'];
+		$template->block("CATEGORIAS");
+		$template->id 			= $_GROUP['id'];
+		$template->LABEL_GROUP 	= $_GROUP['path_name'];
+		$template->block("CATEGORIAS");
+		$template->id 			= $_GROUP['id'];
+		$template->LABEL_GROUP 	= $_GROUP['path_name'];
+		$template->block("CATEGORIAS");
+		$template->id 			= $_GROUP['id'];
+		$template->LABEL_GROUP 	= $_GROUP['path_name'];
+		$template->block("CATEGORIAS");
+	}
+
+
+
 
 
 	#########################################################################

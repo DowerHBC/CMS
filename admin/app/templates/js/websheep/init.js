@@ -142,7 +142,7 @@ $(document).ready(function(){
 						styleText:"color:#ffffff",
 						background:"#bc0d0d",
 						bottomColor:"#000"
-})
+					})
 				}
 				if(directAccess.newUpdate==true){
 					ws.alert.top({
@@ -158,7 +158,7 @@ $(document).ready(function(){
 						styleText:"color:#ffffff;text-shadow: -1px -1px 1px #3a5104;",
 						background:"#75a700",
 						bottomColor:"#000"
-})
+					})
 				}
 			}
 			window.CloseMenu = function(){
@@ -187,21 +187,28 @@ $(document).ready(function(){
 					});
 					window.sanfona({
 						cabecalho:"#menu_tools .path",
-						finishOpen:function(){
+						initOpen:function(e){
+							if($(e).find('.icon').hasClass("fa-folder")){
+								$(e).find('.icon').removeClass("fa-folder").addClass("fa-folder-open");
+							}
+						},
+						initClose:function(e){
+							if($(e).find('.icon').hasClass("fa-folder-open")){
+								$(e).find('.icon').removeClass("fa-folder-open").addClass("fa-folder");
+							}
+						},
+						finishOpen:function(e){
 							$('#menu_tools').perfectScrollbar('update');
 						},
-						finishClose:function(){
+						finishClose:function(e){
 							$('#menu_tools').perfectScrollbar('update');
 						}
 					});
-					$(".ferramenta_especial").unbind("click tap press").bind("click tap press",function(e) {
+					$(".ferramenta_especial,.ferramenta_especial.innerOpt.tool").unbind("click tap press").bind("click tap press",function(e) {
 						var title 			= $(this).data('title-loading');
 						var get 			= $(this).data('get');
 						var path 			= $(this).data('path');
 						var id_ferramenta 	= $(this).data('ferramenta');
-
-						out(path)
-
 						if(id_ferramenta=="-1"){
 							e.preventDefault();
 							window.open(path, '_blank');
@@ -212,7 +219,6 @@ $(document).ready(function(){
 							$('#conteudo').html('<iframe src="'+path+'" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;margin:0;"></iframe>');
 							return false;
 						}
-
 						confirma({
 							conteudo:title+"</b><div class=\'preloaderupdate\' style=\'position: absolute;width: 30px;height: 30px;left: 230px;top: 68px;background-image:url(\""+ws.rootPath+"admin/app/templates/img/websheep/loader_thumb.gif\");background-repeat:no-repeat;background-position: top center;\'></div>",
 							drag:false,
@@ -231,14 +237,11 @@ $(document).ready(function(){
 									window.CloseMenu()
 								});
 							}
-						});
-
-
-				
+						});		
 						return false;
 					});
 
-					$(".ferramenta_especial.innerOpt.tool,li.plugin a").unbind("click tap press").bind("click tap press",function(e) {
+					$("li.plugin a").unbind("click tap press").bind("click tap press",function(e) {
 									e.preventDefault()
 									var titulo 				= $(this).html();
 									var id_ferramenta 		= $(this).data('id');
@@ -401,7 +404,7 @@ $(document).ready(function(){
 			}
 			window.refreshMenuDesktop();
 			$("#preloadWS").hide("fade", {}, 1000);
-			RightClick.init('html');// tira click direito
+			// RightClick.init('html');// tira click direito
 			$(".ws_menu .folder").unbind("click contextmenu  tap press mousedown").bind("click contextmenu  tap press mousedown",function(){
 				$('.ws_menu_popup').fadeOut('fast');
 				$(this).parent().find('.ws_menu_popup').fadeIn('fast');

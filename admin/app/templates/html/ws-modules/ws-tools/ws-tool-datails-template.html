@@ -68,6 +68,32 @@
 					</select>
 				</div>
 			<div class="c"></div>
+				<label class="label w1 _menu_popup_" style="width: 579px;font-size:27px;">{ToolsManager_ToolDetails_groupOwned}</label>		
+				<div class="c"></div>
+				<div class="groups">
+					<div class="w1">
+						<label style="text-align: left;width: calc(100% - 10px);position: relative;float: left;padding: 5px 0px 5px 10px;border-bottom: dotted 1px #CCC;">
+							<input class="inputText _menu_popup_ groups"	name="groups[]" data-value="0"	type="checkbox" {checked_0} style="position: relative; width: 15px; height: 15px; top: 2px; ">
+							{ToolsManager_ToolDetails_rootGroup}
+						</label>
+					</div>
+					<!-- BEGIN LIST_GROUP -->
+					<div class="w1">
+						<label style="text-align: left;width: calc(100% - 10px);position: relative;float: left;padding: 5px 0px 5px 10px;border-bottom: dotted 1px #CCC;">
+							<input class="inputText _menu_popup_ groups" data-value="{id}" type="checkbox" {checked} style="position: relative; width: 15px; height: 15px; top: 2px; ">{GRUPO_NAME}
+						</label>
+					</div>
+
+
+
+					<!-- END LIST_GROUP -->
+					
+					
+				</div>
+
+
+
+				<div class="c"></div>
 				<label class="label w1 _menu_popup_" style="width: 579px;font-size:27px;">{ToolsManager_ToolDetails_AddJs_title}</label>
 				<label class="label w1 	_menu_popup_"><input style="width: auto;" name="_exec_js_" 	type="radio" value="osdois" {_exec_js_1} >{ToolsManager_ToolDetails_AddJs_opt1}</label>
 				<label class="label w1 	_menu_popup_"><input style="width: auto;" name="_exec_js_" 	type="radio" value="abrir" 	{_exec_js_2} >{ToolsManager_ToolDetails_AddJs_opt2}</label>
@@ -193,6 +219,12 @@ _root.reloadFunctions = function(){
 			}else{
 				var chos ="&det_listagem_item=&";
 			}
+			
+			var grupoTools =[];
+			$(".groups:checkbox:checked").each(function(){
+				grupoTools.push($(this).data('value'));
+			});
+
 			$.ajax({
 			  type: "POST",
 			  cache: false,
@@ -206,11 +238,13 @@ _root.reloadFunctions = function(){
 			  	html_gal:$("#html_gal").val(), 
 			  	html_img_gal:$("#html_img_gal").val(), 
 			  	html_file:$("#html_file").val(), 
+			  	groups:grupoTools, 
 			  	function:"salvaFerramenta",
 			  	ws_id_ferramenta: "{WS_ID_FERRAMENTA}",
 			  	inputs:inputs+chos
 			  }
 			}).done(function(e) {
+				out(e)
 				if(e=="sucesso"){
 					window.refreshMenuDesktop();
 					_root.form_preenchido = inputs;

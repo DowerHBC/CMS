@@ -1626,7 +1626,7 @@
 		$array_id       = $_REQUEST['ids'];
 		$i              = 0;
 		sort($array_pos,SORT_NUMERIC);
-		 foreach ($array_id as $id) {
+		foreach ($array_id as $id) {
 			$Salva = new MySQL();
 			$Salva->set_table(PREFIX_TABLES . '_model_item');
 			$Salva->set_where('id="' . $array_id[$i] . '"');
@@ -1634,6 +1634,7 @@
 			$Salva->salvar();
 		 	++$i;
 		}
+		die('sucesso');
 	}
 	
 	###############################################################################################################################
