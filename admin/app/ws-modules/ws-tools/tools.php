@@ -218,36 +218,21 @@ if(!defined("INCLUDE_PATH")){define("INCLUDE_PATH",str_replace("\\","/",substr(r
 
 
 	#####################################################  
-	# PUXAMOS DA BASE TODAS AS FERRAMENTAS
+	# PUXAMOS TODOS OS GRUPOS
 	#####################################################
 	$_GROUPS = new MySQL();
 	$_GROUPS->set_table(PREFIX_TABLES."ws_path_tools");
 	$_GROUPS->set_order('posicao','ASC');
 	$_GROUPS->select();
+
 	#####################################################  
-	# RETORNAMOS O TEMPLATE DA FERRAMENTA
+	# RETORNAMOS O TEMPLATE DOS GRUPOS
 	#####################################################
 	foreach($_GROUPS->fetch_array as $_GROUP){
 		$template->id 			= $_GROUP['id'];
 		$template->LABEL_GROUP 	= $_GROUP['path_name'];
 		$template->block("CATEGORIAS");
-		$template->id 			= $_GROUP['id'];
-		$template->LABEL_GROUP 	= $_GROUP['path_name'];
-		$template->block("CATEGORIAS");
-		$template->id 			= $_GROUP['id'];
-		$template->LABEL_GROUP 	= $_GROUP['path_name'];
-		$template->block("CATEGORIAS");
-		$template->id 			= $_GROUP['id'];
-		$template->LABEL_GROUP 	= $_GROUP['path_name'];
-		$template->block("CATEGORIAS");
-		$template->id 			= $_GROUP['id'];
-		$template->LABEL_GROUP 	= $_GROUP['path_name'];
-		$template->block("CATEGORIAS");
 	}
-
-
-
-
 
 	#########################################################################
 	# CASO O MÓDULO SEJA ACESSADO APENAS PARA INSTALAÇÃO RETORNAMOS A FUNÇÃO
