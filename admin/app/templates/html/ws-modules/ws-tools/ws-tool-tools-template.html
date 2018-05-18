@@ -600,9 +600,6 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 								}
 							})
 					 }); 
-
-
-
 				},
 				newFun:function(){
 					var AppData = $("#detailsApp").serialize();
@@ -611,7 +608,6 @@ $("#combo_folder .editar ").unbind('click').click(function(){
 					  url: "./app/ws-modules/ws-tools/functions.php",
 					  data: { function:"addApp",group:window.groupsTools,id:id,AppData:AppData,plugin:"{GET_PLUGIN}"}
 					}).done(function(data) {
-						
 						TopAlert({mensagem: "{ToolsManager_Modal_CreateOk}",type: 3})
 						window.refreshMenuDesktop();
 						$("#conteudo").load("./{PATH}/tools.php",function(){

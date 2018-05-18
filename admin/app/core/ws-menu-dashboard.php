@@ -124,6 +124,7 @@
 	########################################################################################################
 	$_WS_PATH_ = new MySQL();
 	$_WS_PATH_->set_table(PREFIX_TABLES . '	ws_path_tools');
+	$_WS_PATH_->set_order('posicao','ASC');
 	$_WS_PATH_->select();
 
 

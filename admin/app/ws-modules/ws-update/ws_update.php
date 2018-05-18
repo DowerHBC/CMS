@@ -211,6 +211,7 @@ error_reporting( E_ALL );
 ###############################################################################################################
 ################################################	ws_ferramentas		#######################################
 ###############################################################################################################
+	
 	CreateTableIfNotExist('ws_ferramentas');
 	add_if_not_exist('ws_ferramentas'		,'max_item',			'int(11) 				NOT NULL DEFAULT FALSE');
 	add_if_not_exist('ws_ferramentas'		,'ws_author',			'int(11) 				NOT NULL DEFAULT FALSE');

@@ -50,8 +50,8 @@ function videoData($url = null, $data = "player", $w = null, $h = null, $default
 	} else {
 		$tags = get_meta_tags($url);
 		if ($w == null && $h == null) {
-			$w = $tags['twitter:player:width'];
-			$h = $tags['twitter:player:height'];
+			$w = (isset($tags['twitter:player:width'])) 	? $tags['twitter:player:width']		: 200;
+			$h = (isset($tags['twitter:player:height'])) 	? $tags['twitter:player:height'] 	: 200;
 		}
 		if ($data == "player") {
 			return '<iframe width="' . $w . '" height="' . $h . '" src="' . $tags['twitter:' . $data] . '?autoplay=' . $autoplay . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';

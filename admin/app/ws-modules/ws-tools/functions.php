@@ -2444,10 +2444,17 @@
 		$I->set_table(PREFIX_TABLES . 'ws_ferramentas');
 		$I->set_insert('token', $token);
 		if ($I->insert()) {
+
 			$I = new MySQL();
 			$I->set_table(PREFIX_TABLES . 'ws_ferramentas');
 			$I->set_where('token="' . $token . '"');
 			$I->select();
+
+			$grupos = new MySQL();
+			$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+			$grupos->set_insert('id_tool', $I->fetch_array[0]['id']);
+			$grupos->set_insert('id_path', '0');
+			$grupos->insert();
 			echo template($I->fetch_array[0]['id'], $I->fetch_array[0]['_tit_menu_'], $I->fetch_array[0]['token']);
 		}
 	}
@@ -2661,6 +2668,12 @@
 					$insert_to_group->set_insert('id_path', $group);
 					$insert_to_group->insert();
 				}
+			}else{
+					$grupos = new MySQL();
+					$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+					$grupos->set_insert('id_tool', $NovaFerramenta['id']);
+					$grupos->set_insert('id_path', '0');
+					$grupos->insert();
 			}
 
 			echo template($NovaFerramenta['id'], $NovaFerramenta['_tit_menu_'], $NovaFerramenta['token']);
@@ -2839,12 +2852,14 @@
 		#######################################################################################
 		# AGORA GRAVA UM POR UM NOVAMENTE
 		#######################################################################################
-		foreach ($_REQUEST['groups'] as $value) {
-			$grupos = new MySQL();
-			$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
-			$grupos->set_insert('id_tool', $_REQUEST['ws_id_ferramenta']);
-			$grupos->set_insert('id_path', $value);
-			$grupos->insert();
+		if(isset(@$_REQUEST['groups'])){
+			foreach ($_REQUEST['groups'] as $value) {
+				$grupos = new MySQL();
+				$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
+				$grupos->set_insert('id_tool', $_REQUEST['ws_id_ferramenta']);
+				$grupos->set_insert('id_path', $value);
+				$grupos->insert();
+			}
 		}
 
 		if ($Salva->salvar()) {
@@ -2855,8 +2870,6 @@
 			$t_ferramentas->set_update('_alterado_', '1');
 			$t_ferramentas->salvar();
 			$session->set('ws_id_ferramenta',$_REQUEST['ws_id_ferramenta']);
-
-
 			ws::updateTool($_REQUEST['ws_id_ferramenta']);
 			echo "sucesso";
 			exit;

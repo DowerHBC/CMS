@@ -809,7 +809,13 @@ function getShortCodesPlugin (){
 				###########################################################################
 				echo  getListStylePlugin($contents->style);
 
-				include($path.'/'.$contents->plugin); 
+				if(file_exists($path.'/'.$contents->plugin)){
+					include($path.'/'.$contents->plugin); 
+				}elseif(file_exists('/'.$path.'/'.$contents->plugin)){
+					include('/'.$path.'/'.$contents->plugin); 
+				}else{
+					echo "Arquivo não encontrado: ".$path.'/'.$contents->plugin;
+				}
 				
 				###########################################################################
 				# RETORNA OS JAVASCRIPTS
