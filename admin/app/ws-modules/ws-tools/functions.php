@@ -2852,7 +2852,7 @@
 		#######################################################################################
 		# AGORA GRAVA UM POR UM NOVAMENTE
 		#######################################################################################
-		if(isset(@$_REQUEST['groups'])){
+		if(@$_REQUEST['groups']!== null){
 			foreach ($_REQUEST['groups'] as $value) {
 				$grupos = new MySQL();
 				$grupos->set_table(PREFIX_TABLES . 'ws_link_path_tools');
@@ -3139,5 +3139,3 @@
 	if (isset($_REQUEST['function'])) {
 		_exec($_REQUEST['function']);
 	}
-?>
-
