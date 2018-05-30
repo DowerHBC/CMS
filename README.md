@@ -1,8 +1,5 @@
 ![WebSheep](https://raw.githubusercontent.com/websheep/cms/v.6.3/admin/app/templates/img/websheep/logoEmail.png)
 
-
-
-[![Github All Releases](https://img.shields.io/)](https://github.com/websheep/cms)
 ![Latest Stable Version](https://img.shields.io/badge/version-0.6.3-blue.svg)
 [![GitHub issues](https://img.shields.io/github/issues/websheep/CMS.svg)](https://github.com/websheep/CMS/issues)
 [![GitHub forks](https://img.shields.io/github/forks/websheep/CMS.svg)](https://github.com/websheep/CMS/network)
